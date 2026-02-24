@@ -1,0 +1,15 @@
+PROJ01, DEV001, E-Commerce Platform, 12, 01/01/2026
+PROJ02, DEV002, CRM System, 6, 02/01/2026
+PROJ03, DEV003, Mobile Banking, 8, 01/03/2026
+PROJ04, DEV005, HR Management, 10, 15/02/2026
+PROJ05, DEV007, Embedded Control, 14, 01/04/2026
+PROJ06, DEV010, Inventory System, 5, 20/01/2026
+PROJ07, DEV999, AI Research, 12, 01/05/2026
+PROJ08, DEV012, Data Warehouse, 0, 01/06/2026E-Commerce Platform, DEV001, 12, Thu Jan 01 00:00:00 ICT 2026
+CRM System, DEV002, 6, Fri Jan 02 00:00:00 ICT 2026
+Mobile Banking, DEV003, 8, Sun Mar 01 00:00:00 ICT 2026
+HR Management, DEV005, 10, Sun Feb 15 00:00:00 ICT 2026
+Embedded Control, DEV007, 14, Wed Apr 01 00:00:00 ICT 2026
+Inventory System, DEV010, 5, Tue Jan 20 00:00:00 ICT 2026
+AI Research, DEV999, 12, Fri May 01 00:00:00 ICT 2026
+Data Warehouse, DEV012, 0, Mon Jun 01 00:00:00 ICT 2026
