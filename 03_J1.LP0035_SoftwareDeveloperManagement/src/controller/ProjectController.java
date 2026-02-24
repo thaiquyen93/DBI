@@ -86,15 +86,15 @@ public class ProjectController {
         }
 
         for (Developer dev : devs) {
-            List<Project> projectList
-                    = projectService.findProjectByDevId(dev.getDevID());
+            List<Project> projectList = projectService.findProjectByDevId(dev.getDevID());
             viewFormatter.displayProjectsByDeveloper(dev, projectList);
         }
     }
+
     public void calculateTotalExperience() {
         String devId;
-        
-        do {            
+
+        do {
             devId = ip.getStringAndCheck("Enter developer ID to calculate total experience: ", Acceptable.DEV_ID_VALID);
             if (developerService.findById(devId) == null) {
                 System.out.println("Developer \n"
@@ -102,7 +102,7 @@ public class ProjectController {
                 devId = null;
             }
         } while (devId == null);
-        
+
         List<Project> projectList = projectService.findProjectByDevId(devId);
         int totalExp = 0;
         for (Project project : projectList) {
@@ -112,6 +112,20 @@ public class ProjectController {
         System.out.println(developerService.findById(devId));
         System.out.println("Total experience: " + totalExp);
     }
+
+    public void calculateEndDate() {
+        Date startDate = ip.getDateFromUser("Enter start date (dd/MM/yyyy): ", true);
+
+        List<Project> matchedProjects = projectService.findProjectsByStartDate(startDate);
+
+        if (matchedProjects == null || matchedProjects.isEmpty()) {
+            System.out.println("No projects found with the given start date.");
+            return;
+        }
+
+        viewFormatter.displayProjectEndDates(matchedProjects);
+    }
+
     public void saveProjectToFile() {
         projectService.saveToFile();
     }
