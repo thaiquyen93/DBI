@@ -13,14 +13,16 @@ public class Main {
         DeveloperService developerService = new DeveloperService();
         ProjectService projectService = new ProjectService();
 
-        DeveloperController developerController = new DeveloperController(developerService, projectService);
-        ProjectController projectController = new ProjectController(projectService, developerService);
+        DeveloperController developerController =
+                new DeveloperController(developerService, projectService);
+        ProjectController projectController =
+                new ProjectController(projectService, developerService);
         Inputter ip = new Inputter();
         boolean running = true;
 
         while (running) {
             printMenu();
-            int choice = ip.getInt("Enter your choice (1-13): ", 1, 13);
+            int choice = ip.getInt("Enter your choice (1-12): ", 1, 12);
 
             switch (choice) {
                 case 1:
@@ -69,10 +71,6 @@ public class Main {
                     break;
 
                 case 12:
-                    projectController.calculateEndDate();
-                    break;
-
-                case 13:
                     if (developerController.isDirty() || projectController.isDirty()) {
                         boolean confirm = ip.getYesNo("Do you want to save the changes before exiting? (Y/N): ");
                         if (confirm) {
@@ -99,8 +97,7 @@ public class Main {
         System.out.println("9.  Remove a Developer by ID");
         System.out.println("10. Sort Developers by Salary");
         System.out.println("11. Save data to files");
-        System.out.println("12. Calculate Project End Date");
-        System.out.println("13. Quit program");
+        System.out.println("12. Quit program");
         System.out.println("========================================");
     }
 }

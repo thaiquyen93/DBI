@@ -60,7 +60,8 @@ public void loadFromFile() {
 
         System.out.println("Data loading successfully!");
     } catch (Exception e) {
-        System.out.println("Load file " + PATH_FILE + " error!");
+//        System.out.println("Load file " + PATH_FILE + " error!");
+        e.printStackTrace();
     }
 }
 

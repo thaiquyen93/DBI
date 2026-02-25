@@ -29,60 +29,78 @@ public class ProjectDAO implements Persistable<Project>{
         loadFromFile();
     }
     
-     public void loadFromFile() {
-        FileInputStream fls = null;
-        InputStreamReader isr = null;
-        BufferedReader br = null;
-        
-        try {
-            fls = new FileInputStream(PATH_FILE);
-            isr = new InputStreamReader(fls);
-            br = new BufferedReader(isr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(",");
-                String projectId = parts[0].trim();
-                String devId = parts[1].trim();
-                String projectName = parts[2].trim();
-                int projectDuration = Integer.parseInt(parts[3].trim());
-                String dateStart = parts[4].trim();
-                Date projectStartDate = sdf.parse(dateStart);
-                projects.add(new Project(projectId, devId, projectName, projectDuration, projectStartDate));
- 
+public void loadFromFile() {
+
+    projects.clear(); // tránh trùng dữ liệu
+
+    try (BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(PATH_FILE)))) {
+
+        String line;
+
+        while ((line = br.readLine()) != null) {
+
+            if (line.trim().isEmpty()) continue;
+
+            String[] parts = line.split(",\\s*");
+
+            if (parts.length != 5) {
+                System.out.println("Invalid line format: " + line);
+                continue;
             }
-                System.out.println("Data "+PATH_FILE+" loading successfully!");
-        } catch (Exception e) {
-            System.out.println("Load file " + PATH_FILE +" error!");
-        }
-        finally {
+
+            String projectId = parts[0].trim();
+            String devId = parts[1].trim();
+            String projectName = parts[2].trim();
+
+            int projectDuration;
             try {
-                if (fls != null) {
-                    fls.close();
-                }
-                if (isr != null) {
-                    isr.close();
-                }
-                if (br != null) {
-                    br.close();
-                }
+                projectDuration = Integer.parseInt(parts[3].trim());
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid duration: " + line);
+                continue;
+            }
+
+            Date projectStartDate;
+            try {
+                projectStartDate = sdf.parse(parts[4].trim());
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                System.out.println("Invalid date: " + line);
+                continue;
             }
+
+            projects.add(new Project(projectId, devId, projectName, projectDuration, projectStartDate));
         }
-        
+
+        System.out.println("Data " + PATH_FILE + " loaded successfully!");
+
+    } catch (Exception e) {
+        System.out.println("Cannot load file " + PATH_FILE);
     }
+}
     
-    public void saveToFile() {
-         try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_FILE, true))) {
-            for (Project project : projects) {
-                bw.write(String.format("%s, %s, %s, %s",project.getProjectName(), project.getDevId(), project.getDurationMonth(), project.getStartDate()));
-                bw.newLine();
-            }
-            System.out.println("Project save successfully!");
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
+   public void saveToFile() {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(PATH_FILE))) {
+
+        for (Project project : projects) {
+
+            String formattedDate = sdf.format(project.getStartDate());
+
+            bw.write(String.format("%s, %s, %s, %d, %s",
+                    project.getProjectId(),
+                    project.getDevId(),
+                    project.getProjectName(),
+                    project.getDurationMonth(),
+                    formattedDate));
+
+            bw.newLine();
         }
+
+        System.out.println("Project save successfully!");
+
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+}
     
     
     @Override
