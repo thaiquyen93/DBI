@@ -15,7 +15,7 @@ import model.Project;
  */
 public class ViewFormatter {
 
-    // Định dạng khung cho bảng Developer 
+    // Định dạng khung cho bảng Developer
     private static final String DEV_ROW_FORMAT = "| %-10s | %-20s | %-25s | %10s |%n";
     private static final String PROJECT_ROW_FORMAT = "| %-10s | %-10s | %-20s | %-10s | %-12s |%n";
     private static final String PROJECT_DATA_FORMAT = "| %-10s | %-10s | %-20s | %-10d | %-12s |%n";
@@ -41,8 +41,7 @@ public class ViewFormatter {
                         dev.getDevID(),
                         dev.getName(),
                         dev.getLanguage(),
-                        dev.getSalary()
-                );
+                        dev.getSalary());
             }
         }
 
@@ -55,7 +54,7 @@ public class ViewFormatter {
             System.out.println("There are no developers in the list.");
             return;
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         System.out.println("\n--- PROJECT LIST ---");
         System.out.println(LINE_SEPARATOR);
         System.out.printf(PROJECT_ROW_FORMAT, "PROJECT ID", "DEV ID", "PROJECT NAME", "DURATIONS", "START DATE");
@@ -71,14 +70,12 @@ public class ViewFormatter {
                         pro.getDevId(),
                         pro.getProjectName(),
                         pro.getDurationMonth(),
-                        sdf.format(pro.getStartDate())
-                );
+                        sdf.format(pro.getStartDate()));
             }
         }
 
         System.out.println(LINE_SEPARATOR);
     }
-
 
     public void displayMenu() {
         System.out.println("\n========== DEV CORP MANAGEMENT SYSTEM ==========");
@@ -93,48 +90,42 @@ public class ViewFormatter {
         System.out.println("9.  Remove a Developer by ID");
         System.out.println("10. Sort Developers by Salary");
         System.out.println("11. Save data to files");
-        System.out.println("12. Quit program");
-        System.out.print("Please choose an option (1-12): ");
+        System.out.println("12. Calculate End Date from Start Date");
+        System.out.println("13. Quit program");
+        System.out.print("Please choose an option (1-13): ");
     }
-
 
     public void displayProjectsByDeveloper(Developer dev, List<Project> projects) {
 
-    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 
-    System.out.println("\nDeveloper: " + dev.getDevID() + " - " + dev.getName());
+        System.out.println("\nDeveloper: " + dev.getDevID() + " - " + dev.getName());
 
-    String line = "+------------+----------------------+------------+--------------+";
-    String rowFormat = "| %-10s | %-20s | %10d | %-12s |%n";
+        String line = "+------------+----------------------+------------+--------------+";
+        String rowFormat = "| %-10s | %-20s | %10d | %-12s |%n";
 
-    System.out.println(line);
-    System.out.printf(
-            "| %-10s | %-20s | %-10s | %-12s |%n",
-            "PROJECT ID", "PROJECT NAME", "DURATION", "START DATE"
-    );
-    System.out.println(line);
-
-    if (projects == null || projects.isEmpty()) {
-        System.out.printf("| %-58s |%n", "No projects assigned.");
         System.out.println(line);
-        return;
-    }
-
-    for (Project p : projects) {
         System.out.printf(
-                rowFormat,
-                p.getProjectId(),
-                p.getProjectName(),
-                p.getDurationMonth(),
-                sdf.format(p.getStartDate())
-        );
+                "| %-10s | %-20s | %-10s | %-12s |%n",
+                "PROJECT ID", "PROJECT NAME", "DURATION", "START DATE");
+        System.out.println(line);
+
+        if (projects == null || projects.isEmpty()) {
+            System.out.printf("| %-58s |%n", "No projects assigned.");
+            System.out.println(line);
+            return;
+        }
+
+        for (Project p : projects) {
+            System.out.printf(
+                    rowFormat,
+                    p.getProjectId(),
+                    p.getProjectName(),
+                    p.getDurationMonth(),
+                    sdf.format(p.getStartDate()));
+        }
+        System.out.println(line);
     }
-
-    System.out.println(line);
-}
-
-
-
 
     // Hỗ trợ căn giữa text trong bảng
     private String centerString(int width, String s) {

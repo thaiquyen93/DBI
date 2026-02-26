@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -68,10 +69,20 @@ public class Project {
         this.startDate = startDate;
     }
 
+    public Date getEndDate() {
+        if (startDate == null || durationMonth <= 0) {
+            return null;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.add(Calendar.MONTH, durationMonth);
+        return cal.getTime();
+    }
+
     @Override
     public String toString() {
-        return "Project{" + "projectId=" + projectId + ", devId=" + devId + ", projectName=" + projectName + ", durationMonth=" + durationMonth + ", startDate=" + startDate + '}';
+        return "Project{" + "projectId=" + projectId + ", devId=" + devId + ", projectName=" + projectName
+                + ", durationMonth=" + durationMonth + ", startDate=" + startDate + '}';
     }
-    
-    
+
 }

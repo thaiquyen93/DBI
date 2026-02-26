@@ -4,8 +4,9 @@
  */
 package controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import model.Developer;
 import model.Project;
 import service.DeveloperService;
@@ -86,15 +87,15 @@ public class ProjectController {
         }
 
         for (Developer dev : devs) {
-            List<Project> projectList
-                    = projectService.findProjectByDevId(dev.getDevID());
+            List<Project> projectList = projectService.findProjectByDevId(dev.getDevID());
             viewFormatter.displayProjectsByDeveloper(dev, projectList);
         }
     }
+
     public void calculateTotalExperience() {
         String devId;
-        
-        do {            
+
+        do {
             devId = ip.getStringAndCheck("Enter developer ID to calculate total experience: ", Acceptable.DEV_ID_VALID);
             if (developerService.findById(devId) == null) {
                 System.out.println("Developer \n"
@@ -102,7 +103,7 @@ public class ProjectController {
                 devId = null;
             }
         } while (devId == null);
-        
+
         List<Project> projectList = projectService.findProjectByDevId(devId);
         int totalExp = 0;
         for (Project project : projectList) {
@@ -112,6 +113,24 @@ public class ProjectController {
         System.out.println(developerService.findById(devId));
         System.out.println("Total experience: " + totalExp);
     }
+
+    public void calculateEndDate() {
+        int duration = ip.getInt("Enter duration (months): ", 1);
+        Date startDate = ip.getDateFromUser("Enter start date (dd/MM/yyyy): ", false);
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.add(Calendar.MONTH, duration);
+        Date endDate = cal.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("------ RESULT ------");
+        System.out.println("Start date : " + sdf.format(startDate));
+        System.out.println("Duration   : " + duration + " months");
+        System.out.println("End date   : " + sdf.format(endDate));
+        System.out.println("--------------------");
+    }
+
     public void saveProjectToFile() {
         projectService.saveToFile();
     }
