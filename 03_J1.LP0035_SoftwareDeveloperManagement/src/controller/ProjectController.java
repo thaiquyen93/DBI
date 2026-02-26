@@ -7,6 +7,7 @@ package controller;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import model.Developer;
 import model.Project;
 import service.DeveloperService;
@@ -72,6 +73,14 @@ public class ProjectController {
         int duration = ip.getInt("Enter duration: ", 1);
 
         Date startDate = ip.getDateFromUser("Enter start date: ", false);
+
+        // Tự động tính và in ngày kết thúc
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(startDate);
+        cal.add(Calendar.MONTH, duration);
+        Date endDate = cal.getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        System.out.println("=> End date: " + sdf.format(endDate));
 
         projectService.addProject(new Project(proID, devId, projectName, duration, startDate));
         markDirty();
